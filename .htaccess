@@ -4,6 +4,11 @@
 
 <IfModule mod_headers.c>
     Header set Access-Control-Allow-Origin "*"
-    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS, DELETE"
+    Header set Access-Control-Allow-Methods "GET, POST, PUT, OPTIONS, DELETE"
     Header set Access-Control-Allow-Headers "Content-Type, Authorization, API-KEY"
 </IfModule>
+
+
+<LimitExcept GET POST>
+  Allow from all
+</LimitExcept>

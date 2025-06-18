@@ -60,7 +60,7 @@
     // so sánh 2 KEY ===========
     
     if ($api_key !== API_CODE) {
-        echo json_encode(['error' => 'Invalid API KEY ']);
+        echo json_encode(['error' => 'Invalid API KEY 17/06/2025 ']);
 //        echo json_encode(['api' => $api_key]);
 //        echo json_encode(['code' => API_CODE]);
         http_response_code(401);

@@ -8,7 +8,7 @@ class ModelGuest
     // hosting ===
 //    private $table = "guests";
     // local ===
-     private $table = "wpdt_guests";
+     private $table = "app_guests";
 
     public function __construct()
     {
@@ -39,12 +39,12 @@ class ModelGuest
             ':position' => $data['position'] ?? null,
             ':email' => $data['email'] ?? null,
             ':phone' => $data['phone'] ?? null,
-            ':img' => $data['img'] ?? null,
+            // ':img' => $data['img'] ?? null,
             ':create_date' => $data['create_date'] ?? null,
         ];
 
-        $sql = "INSERT INTO " . $this->table . " (full_name, country, position, email, phone, img, create_date ) 
-        VALUES (:full_name, :country, :position, :email, :phone, :img, :create_date )";
+        $sql = "INSERT INTO " . $this->table . " (full_name, country, position, email, phone, create_date ) 
+        VALUES (:full_name, :country, :position, :email, :phone, :create_date )";
 
 
         //   print_r($params); // 這會顯示所有的參數，幫助檢查

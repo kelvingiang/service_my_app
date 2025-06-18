@@ -36,7 +36,7 @@
     // die();
     // so sánh 2 KEY ===========
     if ($api_key !== API_CODE) {
-        echo json_encode(['error' => API_CODE . 'ssss=' . $api_key]);
+        echo json_encode(['error' => API_CODE . '=' . $api_key]);
         http_response_code(401);
         exit;
     } else {
@@ -44,6 +44,7 @@
 
         $data = array();
         foreach ($guests as $guest) {
+            $img = $guest['img'] == '' ? 'no-image.jpg' : $guest['img'];
             $data = array(
                 'id' => $guest['ID'],
                 'name' => $guest['full_name'],
@@ -51,7 +52,8 @@
                 'email' => $guest['email'],
                 'create_date' => $guest['create_date'],
                 'img' => $guest['img'],
-                'imgUrl' => "http://localhost/service_my_app/images/" . $guest['img'],
+                'imgUrl' => "http://localhost/service_my_app/images/" . $img,
+                // 'imgUrl' => "http://localhost/service_my_app/images/065002635838.jpg",
             );
         }
     }
