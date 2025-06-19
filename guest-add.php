@@ -14,23 +14,28 @@
     header("Access-Control-Allow-Headers: Content-Type, Authorization, API-KEY");
     header("Content-Type: application/json; charset=utf-8");
 
-
-
-    // include_once('./token/jwt.php');
     include_once('./helper/define.php');
     require_once('./controller/controller-guest.php');
 
-    // $headers = getallheaders();
     $response = [];
 
-    // $json = file_get_contents("php://input");
-    // $obj = json_decode($json, true);
-    // echo '<pre>';
-    // print_r($obj);
-    // echo '</pre>';
-    $headers = getallheaders();
+    function getAuthorizationHeader()
+    {
+        $headers = [];
+        foreach ($_SERVER as $key => $value) {
+            if (substr($key, 0, 5) === 'HTTP_') {
+                $header = str_replace('_', '-', strtolower(substr($key, 5)));
+                $headers[$header] = $value;
+            }
+        }
+        return $headers;
+    }
 
-    if (!isset($headers['API-KEY']) || $headers['API-KEY'] !==  API_CODE) {
+    $headers = getAuthorizationHeader();
+
+    // $headers = getallheaders();
+
+    if (!isset($headers['api-key']) || $headers['api-key'] !==  API_CODE) {
         echo json_encode(["result" => "API Key not found!"]);
     } else {
         $api_key = $_SERVER['HTTP_API_KEY'];
@@ -43,7 +48,6 @@
         $response = ['status' => 'failure', 'token' => 'Error', 'message' => 'Token 無效或解碼失敗'];
         exit;
     } else {
-        $controller = new ControllerGuest();
         // 初始化資料
         $data = [
             'full_name' => $_POST['full_name'] ?? null,
@@ -51,7 +55,6 @@
             'position' => $_POST['position'] ?? null,
             'email' => $_POST['email'] ?? null,
             'phone' => $_POST['phone'] ?? null,
-            // 'img' => $imgName ?? null,
             'create_date' => date('d-m-yy'),
         ];
 
