@@ -14,6 +14,10 @@
     header("Access-Control-Allow-Headers: Content-Type, Authorization, API-KEY");
     header("Content-Type: application/json; charset=utf-8");
 
+    // 請加上這行防止 PHP 錯誤訊息干擾 JSON 輸出
+    error_reporting(0);
+    ini_set('display_errors', 0);
+
     include_once('./helper/define.php');
     require_once('./controller/controller-guest.php');
 
@@ -35,19 +39,19 @@
 
     // $headers = getallheaders();
 
-    if (!isset($headers['api-key']) || $headers['api-key'] !==  API_CODE) {
-        echo json_encode(["result" => "API Key not found!"]);
-    } else {
-        $api_key = $_SERVER['HTTP_API_KEY'];
-        //echo json_encode(["API Key Received" => $api_key . ',API :' . API_CODE]);
-    }
+    // if (!isset($headers['api-key']) || $headers['api-key'] !== API_CODE) {
+    //     echo json_encode(["result" => "API Key not found!"]);
+    // } else {
+    //     $api_key = $_SERVER['HTTP_API_KEY'];
+    //     //echo json_encode(["API Key Received" => $api_key . ',API :' . API_CODE]);
+    // }
 
-    if ($api_key !== API_CODE) {
-        echo json_encode(['error' => API_CODE . '=' . $api_key]);
+    if (!isset($headers['api-key']) || $headers['api-key'] !== API_CODE) {
+        // echo json_encode(['error' => API_CODE . '=' . $api_key]);
         http_response_code(401);
-        $response = ['status' => 'failure', 'token' => 'Error', 'message' => 'Token 無效或解碼失敗'];
+        $response = ['status' => 'failure', 'message' => 'API Key not found!'];
         exit;
-    } else {
+    } 
         // 初始化資料
         $data = [
             'full_name' => $_POST['full_name'] ?? null,
@@ -61,8 +65,8 @@
         // 呼叫控制器的 addGuest 方法
         $controller = new ControllerGuest();
         $controller->addGuest($data);
-        $response = ['status' => 'success', 'token' => 'Error', 'message' => 'them moi thanh cong'];
-    }
+        $response = ['status' => 'success', 'message' => 'them moi thanh cong'];
+    
     // trả về ======
     echo json_encode($response);
 
