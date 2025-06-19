@@ -32,11 +32,12 @@ class ModelGuest
     // 插入新客人
     public function insertGuest($data)
     {
+        $barcode = date('ymdhis');
         // 準備數據
         $params = [
             ':full_name' => $data['full_name'] ?? null,
             ':country' => $data['country'] ?? null,
-            ':barcode' => date('ymdhis'),
+            ':barcode' => $barcode,
             ':position' => $data['position'] ?? null,
             ':email' => $data['email'] ?? null,
             ':phone' => $data['phone'] ?? null,
