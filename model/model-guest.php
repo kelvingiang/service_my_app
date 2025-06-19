@@ -36,6 +36,7 @@ class ModelGuest
         $params = [
             ':full_name' => $data['full_name'] ?? null,
             ':country' => $data['country'] ?? null,
+            ':barcode' => date('ymdhis'),
             ':position' => $data['position'] ?? null,
             ':email' => $data['email'] ?? null,
             ':phone' => $data['phone'] ?? null,
@@ -43,8 +44,8 @@ class ModelGuest
             ':create_date' => $data['create_date'] ?? null,
         ];
 
-        $sql = "INSERT INTO " . $this->table . " (full_name, country, position, email, phone, create_date ) 
-        VALUES (:full_name, :country, :position, :email, :phone, :create_date )";
+        $sql = "INSERT INTO " . $this->table . " (full_name, country, barcode, position, email, phone, create_date ) 
+        VALUES (:full_name, :country, :barcode, :position, :email, :phone, :create_date )";
 
 
         //   print_r($params); // 這會顯示所有的參數，幫助檢查
