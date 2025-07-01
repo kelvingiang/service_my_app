@@ -41,6 +41,9 @@
         exit;
     } else {
         $guests = $controller->getGuest($_GET['id']);
+        // 用法
+        $base = getBaseUrl();
+        $base = str_replace('/api', '', $base); // 去掉 api 目錄（依照你的目錄結構調整）
 
         $data = array();
         foreach ($guests as $guest) {
@@ -52,10 +55,23 @@
                 'email' => $guest['email'],
                 'create_date' => $guest['create_date'],
                 'img' => $guest['img'],
-                'imgUrl' => "http://localhost/service_my_app/images/" . $img,
-                // 'imgUrl' => "http://localhost/service_my_app/images/065002635838.jpg",
+                'imgUrl' => $base . "/images/" . $img,
             );
         }
+    }
+
+
+    // lấy URL hiện hành 
+    function getBaseUrl()
+    {
+        $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off'
+            || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+
+        $host = $_SERVER['HTTP_HOST'];
+        $scriptDir = str_replace(basename($_SERVER['SCRIPT_NAME']), '', $_SERVER['SCRIPT_NAME']);
+        $scriptDir = rtrim($scriptDir, '/');
+
+        return $protocol . $host . $scriptDir;
     }
 
     echo json_encode($data);
