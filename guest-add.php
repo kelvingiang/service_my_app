@@ -31,6 +31,42 @@ if (!isset($headers['api-key']) || $headers['api-key'] !== API_CODE) {
     exit;
 }
 
+$targetDir = "images/";
+$fileName = '';
+
+// 確認上傳資料夾存在，不存在就建立
+if (!file_exists($targetDir)) {
+    mkdir($targetDir, 0777, true);
+}
+
+
+// 檢查是否有檔案
+
+
+// 如果有檔案就處理
+if (isset($_FILES["file"]) && $_FILES["file"]["error"] === 0) {
+    $fileExt = strtolower(pathinfo($_FILES["file"]["name"], PATHINFO_EXTENSION));
+    $fileName = date('ymdhis') . '.' . $fileExt;
+    $targetFilePath = $targetDir . $fileName;
+
+    $allowedTypes = ["jpg", "jpeg", "png", "gif", "webp"];
+    if (in_array($fileExt, $allowedTypes)) {
+        if (!move_uploaded_file($_FILES["file"]["tmp_name"], $targetFilePath)) {
+            echo json_encode([
+                "status" => "error",
+                "message" => "檔案上傳失敗"
+            ]);
+            exit;
+        }
+    } else {
+        echo json_encode([
+            "status" => "error",
+            "message" => "僅允許上傳圖片檔案"
+        ]);
+        exit;
+    }
+}
+
 // 收集 POST 資料
 $data = [
     'full_name' => $_POST['full_name'] ?? null,
@@ -38,15 +74,21 @@ $data = [
     'position' => $_POST['position'] ?? null,
     'email' => $_POST['email'] ?? null,
     'phone' => $_POST['phone'] ?? null,
-    'create_date' => date('d-m-yy'),
+    'img' => $fileName,
+    'create_date' => date('d-m-Y'),
 ];
 
 // 寫入資料庫
 $controller = new ControllerGuest();
-$controller->addGuest($data);
+$insertResult = $controller->addGuest($data);
 
 // 回傳成功訊息
-$response = ['status' => 'success', 'message' => 'them moi thanh cong'];
+
+if ($insertResult) {
+    $response = ['status' => 'success', 'message' => '新增成功'];
+} else {
+    $response = ['status' => 'error', 'message' => '資料新增失敗'];
+}
 echo json_encode($response);
 
 ob_end_flush();
