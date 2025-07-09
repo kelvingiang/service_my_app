@@ -30,8 +30,8 @@ header("Content-Type: application/json; charset=utf-8");
 
 // kiem tra dang nhap
 // include_once('./token/jwt.php');
-include_once('./helper/define.php');
-require_once('./controller/controller-guest.php');
+include_once('../../helper/define.php');
+require_once('../../controller/controller-guest.php');
 
 $json = file_get_contents("php://input");
 $obj = json_decode($json, true);

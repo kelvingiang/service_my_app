@@ -20,8 +20,8 @@ header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, API-KEY");
 header("Content-Type: application/json; charset=utf-8");
 
-include_once('./helper/define.php');
-require_once('./controller/controller-guest.php');
+require_once('../../controller/controller-guest.php');
+include_once('../../helper/define.php');
 
 // 取得 headers 並檢查 API-KEY
 $headers = array_change_key_case(getallheaders(), CASE_LOWER);

@@ -1,6 +1,7 @@
 <?php
 // ModelGuest.php
-require_once('./conn/database-operations.php');
+// require_once('./conn/database-operations.php');
+require_once __DIR__ . '/../conn/database-operations.php';
 
 class ModelGuest
 {
@@ -47,10 +48,6 @@ class ModelGuest
 
         $sql = "INSERT INTO " . $this->table . " (full_name, country, barcode, position, email, phone, img, create_date ) 
         VALUES (:full_name, :country, :barcode, :position, :email, :phone, :img, :create_date )";
-
-
-        //   print_r($params); // 這會顯示所有的參數，幫助檢查
-        // echo $sql;
 
         return $this->dbOps->insert($sql, $params); // 使用 insert 方法
     }

@@ -29,25 +29,15 @@
         exit;
     } else {
 
-    $userName = $_GET['u'];
-    $password = $_GET['p'];
-    $time = time();            // 簽發時間
-    $timeExp = time() + 300;       // 到期時間 (5 分鐘後)
+        $userName = $_GET['u'];
+        $password = $_GET['p'];
+        $iat = time();            // issued at 簽發時間
+        $exp = time() + 300;       // expires at 到期時間 (5 分鐘後) 這是重點
 
-    // echo '<pre>'; print_r($guests); echo '</pre>';
+        $token = array('userName' => $userName, 'password' => $password, 'time' => $iat, 'timeExp' => $exp);
 
-    $token = array('userName' => $userName, 'password' => $password, 'time' => $time, 'timeExp' => $timeExp);
-
-    $jsonWebToken = JWT::encode($token, SECURITY_CODE);
-    $maHoa = json_encode($jsonWebToken);
-    echo $maHoa;
-
-    // 解密
-    // try {
-    //     $decodedToken = JWT::decode($jsonWebToken, SECURITY_CODE, ['HS256']);
-    //     echo "解密的資料: ";
-    //     print_r($decodedToken);
-    // } catch (Exception $e) {
-    //     echo "解密失敗: " . $e->getMessage();
-    // }
+        $jsonWebToken = JWT::encode($token, SECURITY_CODE);
+        $maHoa = json_encode($jsonWebToken);
+        echo $maHoa;
     }
+

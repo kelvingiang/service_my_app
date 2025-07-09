@@ -1,5 +1,5 @@
 <?php
-require_once('./model/model-guest.php');
+require_once __DIR__ . '/../model/model-guest.php';
 
 
 class ControllerGuest

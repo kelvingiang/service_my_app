@@ -14,8 +14,8 @@
     header("Access-Control-Allow-Headers: Authorization, Content-Type");
     header('content-type: application/json; charset=utf-8');
 
-    include_once('./helper/define.php');
-    require_once('./controller/controller-guest.php');
+    include_once('../../helper/define.php');
+    require_once('../../controller/controller-guest.php');
 
     $controller = new ControllerGuest();
     $headers = getallheaders();
